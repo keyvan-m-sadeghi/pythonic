@@ -1,3 +1,4 @@
+[![npm version](https://badge.fury.io/js/pythonic.svg)](https://www.npmjs.com/package/pythonic)
 # Pythonic
 Python like utility functions for JS
 
