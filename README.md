@@ -37,7 +37,7 @@ import {zip} from 'pythonic';
 const arr1 = ['a', 'b'];
 const arr2 = ['c', 'd', 'e'];
 for (const [first, second] of zip(arr1, arr2))
-    console.log(`first: ${index}, second: ${value}`);
+    console.log(`first: ${first}, second: ${second}`);
 // first: a, second: c
 // first: b, second: d
 ```
