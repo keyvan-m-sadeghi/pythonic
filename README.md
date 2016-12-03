@@ -25,8 +25,8 @@ import {enumerate} from 'pythonic';
 const arr = ['a', 'b'];
 for (const [index, value] of enumerate(arr))
     console.log(`index: ${index}, value: ${value}`);
-// index: 0, value: aa
-// index: 1, value: bb
+// index: 0, value: a
+// index: 1, value: b
 ```
 
 **zip**
