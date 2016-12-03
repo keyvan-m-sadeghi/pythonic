@@ -1,6 +1,6 @@
 {
   "name": "pythonic",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Python like utility functions for JS",
   "main": "index.js",
   "jsnext:main": "./src/index.js",
