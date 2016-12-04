@@ -18,7 +18,7 @@ function * enumerate(array) {
 function * zip(arrayFirst, arraySecond) {
     let index = 0;
     for (const element of arrayFirst) {
-        if (!arraySecond[index])
+        if (index >= arraySecond.length)
             break;
         yield [element, arraySecond[index]];
         index++;
