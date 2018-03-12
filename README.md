@@ -1,5 +1,7 @@
 [![npm version](https://badge.fury.io/js/pythonic.svg)](https://www.npmjs.com/package/pythonic)
+
 # Pythonic
+
 Python like utility functions for JS
 
 ### Install
@@ -8,7 +10,9 @@ npm install pythonic --save
 ```
 
 ### Functions
+
 **keyValues**
+
 ```javascript
 import {keyValues} from 'pythonic';
 
@@ -20,6 +24,7 @@ for (const [key, value] of keyValues(obj))
 ```
 
 **enumerate**
+
 ```javascript
 import {enumerate} from 'pythonic';
 
@@ -31,6 +36,7 @@ for (const [index, value] of enumerate(arr))
 ```
 
 **zip**
+
 ```javascript
 import {zip} from 'pythonic';
 
@@ -41,5 +47,7 @@ for (const [first, second] of zip(arr1, arr2))
 // first: a, second: c
 // first: b, second: d
 ```
+
 ### License
+
 [MIT](https://github.com/assister-ai/pythonic/blob/master/LICENSE)
