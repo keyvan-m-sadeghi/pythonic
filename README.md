@@ -12,16 +12,19 @@ npm install pythonic --save
 
 ### Functions
 
-**keyValues**
+**range**
 
 ```javascript
-import {keyValues} from 'pythonic';
+import {range} from 'pythonic';
 
-const obj = {a: 'aa', b: 'bb'};
-for (const [key, value] of keyValues(obj))
-    console.log(`key: ${key}, value: ${value}`);
-// key: a, value: aa
-// key: b, value: bb
+for (const i of range(10, 25, 5))
+    console.log(i);
+// 10
+// 15
+// 20
+
+console.log(range(3).map(x => x + 1));
+// [1, 2, 3]
 ```
 
 **enumerate**
@@ -47,6 +50,18 @@ for (const [first, second] of zip(arr1, arr2))
     console.log(`first: ${first}, second: ${second}`);
 // first: a, second: c
 // first: b, second: d
+```
+
+**keyValues**
+
+```javascript
+import {keyValues} from 'pythonic';
+
+const obj = {a: 'aa', b: 'bb'};
+for (const [key, value] of keyValues(obj))
+    console.log(`key: ${key}, value: ${value}`);
+// key: a, value: aa
+// key: b, value: bb
 ```
 
 ### License
