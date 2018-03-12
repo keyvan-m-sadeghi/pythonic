@@ -31,6 +31,9 @@
   },
   "xo": {
     "space": 4,
+    "rules": {
+      "unicorn/prefer-spread": 0
+    },
     "envs": [
       "node"
     ]
