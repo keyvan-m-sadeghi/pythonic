@@ -1,6 +1,6 @@
 {
   "name": "pythonic",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Python like utility functions for JS: `range`, `enumerate`, `zip` and `items`.",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/assister-ai/pythonic.git"
   },
-  "files":[
+  "files": [
     "index.js"
   ],
   "keywords": [
@@ -36,12 +36,15 @@
     "space": 4,
     "rules": {
       "unicorn/prefer-spread": 0,
-      "prefer-destructuring": ["error", {
-        "AssignmentExpression": {
-          "array": true,
-          "object": false
+      "prefer-destructuring": [
+        "error",
+        {
+          "AssignmentExpression": {
+            "array": true,
+            "object": false
+          }
         }
-      }]
+      ]
     },
     "envs": [
       "node"
