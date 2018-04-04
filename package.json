@@ -16,8 +16,13 @@
   ],
   "keywords": [
     "python",
+    "util",
     "utility",
-    "es6"
+    "utilities",
+    "es6",
+    "client",
+    "server",
+    "browser"
   ],
   "author": "Keyvan Mir Mohammad Sadeghi <keyvan.m.sadeghi@gmail.com>",
   "license": "MIT",
