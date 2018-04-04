@@ -11,6 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/assister-ai/pythonic.git"
   },
+  "files":[
+    "index.js"
+  ],
   "keywords": [
     "python",
     "utility",
