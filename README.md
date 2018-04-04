@@ -1,5 +1,5 @@
 [![npm version](https://badge.fury.io/js/pythonic.svg)](https://www.npmjs.com/package/pythonic)
-[![Build Status](https://travis-ci.org/assister-ai/pythonic)](https://travis-ci.org/assister-ai/pythonic)
+[![Build Status](https://api.travis-ci.org/assister-ai/pythonic.svg?branch=master)](https://travis-ci.org/assister-ai/pythonic)
 
 # Pythonic
 
