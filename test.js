@@ -1,5 +1,5 @@
 const test = require('ava');
-const {range, enumerate, zip, keyValues} = require('.');
+const {range, enumerate, zip, items} = require('.');
 
 test('range with stop', t => {
     t.deepEqual(range(3).map(x => x + 1), [1, 2, 3]);
@@ -45,14 +45,28 @@ test('zip', t => {
     }
 });
 
-test('keyValues', t => {
-    const obj = {
-        one: 1,
-        two: 2,
-        three: 3
-    };
-
-    for (const [key, value] of keyValues(obj)) {
-        t.is(value, obj[key]);
+test('items', t => {
+    const scenarios = [
+        {
+            one: 1,
+            two: 2,
+            three: 3
+        },
+        new Map([
+            [1, 'one'],
+            [2, 'two'],
+            [3, 'three']
+        ])
+    ];
+    for (const obj of scenarios) {
+        let {get} = obj;
+        if (obj instanceof Map) {
+            get = get.bind(obj);
+        } else {
+            get = key => obj[key];
+        }
+        for (const [key, value] of items(obj)) {
+            t.is(value, get(key));
+        }
     }
 });

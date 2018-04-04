@@ -1,29 +1,3 @@
-function * enumerate(iterable) {
-    let index = 0;
-    for (const element of iterable) {
-        yield [index, element];
-        index++;
-    }
-}
-
-function * zip(iterFirst, iterSecond) {
-    iterFirst = Array.from(iterFirst);
-    let index = 0;
-    for (const element of iterSecond) {
-        if (index >= iterFirst.length) {
-            break;
-        }
-        yield [iterFirst[index], element];
-        index++;
-    }
-}
-
-function * keyValues(obj) {
-    for (const key of Object.keys(obj)) {
-        yield [key, obj[key]];
-    }
-}
-
 class Generator {
     constructor(generatorFn) {
         this[Symbol.iterator] = generatorFn;
@@ -52,23 +26,71 @@ class Generator {
     }
 }
 
-const rangeGeneratorWithStop = stop => function * () {
-    for (let i = 0; i < stop; i++) {
-        yield i;
-    }
-};
+function rangeSimple(stop) {
+    return new Generator(function * () {
+        for (let i = 0; i < stop; i++) {
+            yield i;
+        }
+    });
+}
 
-const rangeGeneratorWithSartAndStopAndStep = (start, stop, step = 1) => function * () {
-    for (let i = start; i < stop; i += step) {
-        yield i;
-    }
-};
+function rangeOverload(start, stop, step = 1) {
+    return new Generator(function * () {
+        for (let i = start; i < stop; i += step) {
+            yield i;
+        }
+    });
+}
 
 function range(...args) {
     if (args.length < 2) {
-        return new Generator(rangeGeneratorWithStop(...args));
+        return rangeSimple(...args);
     }
-    return new Generator(rangeGeneratorWithSartAndStopAndStep(...args));
+    return rangeOverload(...args);
 }
 
-module.exports = {range, enumerate, zip, keyValues, Generator};
+function enumerate(iterable) {
+    return new Generator(function * () {
+        let index = 0;
+        for (const element of iterable) {
+            yield [index, element];
+            index++;
+        }
+    });
+}
+
+function zip(iterFirst, iterSecond) {
+    return new Generator(function * () {
+        iterFirst = Array.from(iterFirst);
+        let index = 0;
+        for (const element of iterSecond) {
+            if (index >= iterFirst.length) {
+                break;
+            }
+            yield [iterFirst[index], element];
+            index++;
+        }
+    });
+}
+
+function items(obj) {
+    let {keys, get} = obj;
+    if (obj instanceof Map) {
+        keys = keys.bind(obj);
+        get = get.bind(obj);
+    } else {
+        keys = function () {
+            return Object.keys(obj);
+        };
+        get = function (key) {
+            return obj[key];
+        };
+    }
+    return new Generator(function * () {
+        for (const key of keys()) {
+            yield [key, get(key)];
+        }
+    });
+}
+
+module.exports = {Generator, range, enumerate, zip, items};

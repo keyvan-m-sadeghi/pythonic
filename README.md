@@ -3,7 +3,7 @@
 
 # Pythonic
 
-Python like utility functions for JS
+Python like utility functions for JS: `range`, `enumerate`, `zip` and `items`.
 
 ### Install
 ```bash
@@ -12,7 +12,7 @@ npm install pythonic --save
 
 ### Functions
 
-**range**
+#### range
 
 ```javascript
 import {range} from 'pythonic';
@@ -27,7 +27,7 @@ console.log(range(3).map(x => x + 1));
 // [1, 2, 3]
 ```
 
-**enumerate**
+#### enumerate
 
 ```javascript
 import {enumerate} from 'pythonic';
@@ -39,7 +39,7 @@ for (const [index, value] of enumerate(arr))
 // index: 1, value: b
 ```
 
-**zip**
+#### zip
 
 ```javascript
 import {zip} from 'pythonic';
@@ -52,16 +52,22 @@ for (const [first, second] of zip(arr1, arr2))
 // first: b, second: d
 ```
 
-**keyValues**
+#### items
 
 ```javascript
-import {keyValues} from 'pythonic';
+import {items} from 'pythonic';
 
 const obj = {a: 'aa', b: 'bb'};
-for (const [key, value] of keyValues(obj))
+for (const [key, value] of items(obj))
     console.log(`key: ${key}, value: ${value}`);
 // key: a, value: aa
 // key: b, value: bb
+
+const map = new Map([[1, 'one'], [2, 'two']]);
+for (const [key, value] of items(map))
+    console.log(`key: ${key}, value: ${value}`);
+// key: 1, value: one
+// key: 2, value: two
 ```
 
 ### License

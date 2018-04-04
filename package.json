@@ -1,7 +1,7 @@
 {
   "name": "pythonic",
   "version": "0.2.1",
-  "description": "Python like utility functions for JS",
+  "description": "Python like utility functions for JS: `range`, `enumerate`, `zip` and `items`.",
   "main": "index.js",
   "scripts": {
     "lint": "xo",
@@ -32,7 +32,13 @@
   "xo": {
     "space": 4,
     "rules": {
-      "unicorn/prefer-spread": 0
+      "unicorn/prefer-spread": 0,
+      "prefer-destructuring": ["error", {
+        "AssignmentExpression": {
+          "array": true,
+          "object": false
+        }
+      }]
     },
     "envs": [
       "node"
