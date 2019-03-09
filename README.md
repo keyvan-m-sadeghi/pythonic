@@ -3,7 +3,10 @@
 
 # Pythonic
 
-Python like utility functions for JS: `range`, `enumerate`, `zip` and `items`.
+Python like utility functions for JavaScript: `range`, `enumerate`, `zip` and `items`.
+These functions return a [`Generator`](https://github.com/assister-ai/pythonic/blob/master/index.js#L1)
+instance similar to [Python Generators](https://wiki.python.org/moin/Generators).
+A `Generator` is computed only on invocation, offers `map`, `filter` and `reduce` interfaces.
 
 ### Install
 ```bash
@@ -17,14 +20,19 @@ npm install pythonic --save
 ```javascript
 import {range} from 'pythonic';
 
+range(3).map(x => console.log(x + 1));
+// 1
+// 2
+// 3
+
 for (const i of range(10, 25, 5))
     console.log(i);
 // 10
 // 15
 // 20
 
-console.log(range(3).map(x => x + 1));
-// [1, 2, 3]
+console.log(range(5).reduce((accumulator, current) => accumulator + current));
+// 10
 ```
 
 #### enumerate

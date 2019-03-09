@@ -1,28 +1,78 @@
 class Generator {
-    constructor(generatorFn) {
-        this[Symbol.iterator] = generatorFn;
+    constructor(generatorFunction) {
+        this[Symbol.iterator] = generatorFunction;
     }
 
-    map(callbackFn) {
+    async * [Symbol.asyncIterator]() {
+        for (const element of this) {
+            yield await element;
+        }
+    }
+
+    map(callback) {
         const result = [];
         for (const element of this) {
-            result.push(callbackFn(element));
+            result.push(callback(element));
         }
+
         return result;
     }
 
-    filter(callbackFn) {
+    filter(callback) {
         const result = [];
         for (const element of this) {
-            if (callbackFn(element)) {
+            if (callback(element)) {
                 result.push(element);
             }
         }
+
         return result;
+    }
+
+    reduce(callback, initialValue) {
+        let empty = typeof initialValue === 'undefined';
+        let accumulator = initialValue;
+        let index = 0;
+        for (const currentValue of this) {
+            if (empty) {
+                accumulator = currentValue;
+                empty = false;
+                continue;
+            }
+
+            accumulator = callback(accumulator, currentValue, index, this);
+            index++;
+        }
+
+        if (empty) {
+            throw new TypeError('Reduce of empty Generator with no initial value');
+        }
+
+        return accumulator;
+    }
+
+    static fromIterable(iterable) {
+        return new Generator(function * () {
+            for (const element of iterable) {
+                yield element;
+            }
+        });
     }
 
     toArray() {
         return Array.from(this);
+    }
+
+    next() {
+        if (!this.currentInvokedGenerator) {
+            this.currentInvokedGenerator = this[Symbol.iterator]();
+        }
+
+        return this.currentInvokedGenerator.next();
+    }
+
+    reset() {
+        delete this.currentInvokedGenerator;
     }
 }
 
@@ -46,6 +96,7 @@ function range(...args) {
     if (args.length < 2) {
         return rangeSimple(...args);
     }
+
     return rangeOverload(...args);
 }
 
@@ -59,16 +110,29 @@ function enumerate(iterable) {
     });
 }
 
-function zip(iterFirst, iterSecond) {
+function zip(...iterables) {
+    if (iterables.length < 2) {
+        throw new TypeError(`zip takes 2 iterables at least, ${iterables.length} given`);
+    }
+
     return new Generator(function * () {
-        iterFirst = Array.from(iterFirst);
-        let index = 0;
-        for (const element of iterSecond) {
-            if (index >= iterFirst.length) {
-                break;
+        const generators = [];
+        for (const iterable of iterables) {
+            generators.push(Generator.fromIterable(iterable));
+        }
+
+        while (true) {
+            const row = [];
+            for (const generator of generators) {
+                const next = generator.next();
+                if (next.done) {
+                    return;
+                }
+
+                row.push(next.value);
             }
-            yield [iterFirst[index], element];
-            index++;
+
+            yield row;
         }
     });
 }
@@ -82,10 +146,12 @@ function items(obj) {
         keys = function () {
             return Object.keys(obj);
         };
+
         get = function (key) {
             return obj[key];
         };
     }
+
     return new Generator(function * () {
         for (const key of keys()) {
             yield [key, get(key)];

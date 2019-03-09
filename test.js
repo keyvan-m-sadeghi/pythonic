@@ -11,15 +11,13 @@ test('range with start, stop and step', t => {
 });
 
 test('enumerate', t => {
-    const iter = [0, 1, 2];
-
-    for (const [index, value] of enumerate(iter)) {
+    for (const [index, value] of enumerate([0, 1, 2])) {
         t.is(index, value);
     }
 });
 
 test('zip', t => {
-    const scenarios = [
+    let scenarios = [
         {
             iterFirst: ['one', 'two', 'three'],
             iterSecond: [1, 2, 3]
@@ -31,6 +29,10 @@ test('zip', t => {
         {
             iterFirst: ['one', 'two', 'three'],
             iterSecond: [1, 2, 3, 4]
+        },
+        {
+            iterFirst: [],
+            iterSecond: []
         }
     ];
     let index;
@@ -40,6 +42,39 @@ test('zip', t => {
         for (const [first, second] of zip(iterFirst, iterSecond)) {
             t.is(first, iterFirst[index]);
             t.is(second, iterSecond[index]);
+            index++;
+        }
+    }
+
+    scenarios = [
+        {
+            iterFirst: ['one', 'two', 'three'],
+            iterSecond: [1, 2, 3],
+            iterThird: ['I', 'II', 'III']
+        },
+        {
+            iterFirst: ['one', 'two', 'three', 'four'],
+            iterSecond: [1, 2, 3],
+            iterThird: ['I', 'II']
+        },
+        {
+            iterFirst: ['one', 'two', 'three'],
+            iterSecond: [1, 2, 3, 4],
+            iterThird: ['I', 'II', 'III', 'IV', 'V']
+        },
+        {
+            iterFirst: [],
+            iterSecond: [],
+            iterThird: []
+        }
+    ];
+
+    for (const {iterFirst, iterSecond, iterThird} of scenarios) {
+        index = 0;
+        for (const [first, second, third] of zip(iterFirst, iterSecond, iterThird)) {
+            t.is(first, iterFirst[index]);
+            t.is(second, iterSecond[index]);
+            t.is(third, iterThird[index]);
             index++;
         }
     }
@@ -65,8 +100,20 @@ test('items', t => {
         } else {
             get = key => obj[key];
         }
+
         for (const [key, value] of items(obj)) {
             t.is(value, get(key));
         }
+    }
+});
+
+test('reduce', t => {
+    t.is(range(5).reduce((accumulator, current) => accumulator + current), 10);
+    t.is(range(5).reduce((accumulator, current) => accumulator + current, 5), 15);
+});
+
+test('async Generator', async t => {
+    for await (const [index, value] of enumerate([0, 1, 2])) {
+        t.is(index, value);
     }
 });
