@@ -51,6 +51,25 @@ class Generator {
         return accumulator;
     }
 
+    some(callback) {
+        for (const element of this) {
+            if (callback(element)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    every(callback) {
+        let result = true;
+        for (const element of this) {
+            result = result && callback(element);
+        }
+
+        return result;
+    }
+
     static fromIterable(iterable) {
         return new Generator(function * () {
             for (const element of iterable) {
