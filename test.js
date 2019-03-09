@@ -1,5 +1,5 @@
 const test = require('ava');
-const {range, enumerate, zip, items} = require('.');
+const {range, enumerate, zip, zipLongest, items} = require('.');
 
 test('range with stop', t => {
     t.deepEqual(range(3).map(x => x + 1), [1, 2, 3]);
@@ -70,12 +70,14 @@ test('zip', t => {
     ];
 
     for (const {iterFirst, iterSecond, iterThird} of scenarios) {
-        index = 0;
-        for (const [first, second, third] of zip(iterFirst, iterSecond, iterThird)) {
-            t.is(first, iterFirst[index]);
-            t.is(second, iterSecond[index]);
-            t.is(third, iterThird[index]);
-            index++;
+        for (const zipMethod of [zip, zipLongest]) {
+            index = 0;
+            for (const [first, second, third] of zipMethod(iterFirst, iterSecond, iterThird)) {
+                t.is(first, iterFirst[index]);
+                t.is(second, iterSecond[index]);
+                t.is(third, iterThird[index]);
+                index++;
+            }
         }
     }
 });

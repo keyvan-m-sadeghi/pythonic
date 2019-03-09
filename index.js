@@ -110,32 +110,24 @@ function enumerate(iterable) {
     });
 }
 
-function zip(...iterables) {
+const zip = longest => (...iterables) => {
     if (iterables.length < 2) {
         throw new TypeError(`zip takes 2 iterables at least, ${iterables.length} given`);
     }
 
     return new Generator(function * () {
-        const generators = [];
-        for (const iterable of iterables) {
-            generators.push(Generator.fromIterable(iterable));
-        }
-
+        const generators = iterables.map(iterable => Generator.fromIterable(iterable));
         while (true) {
-            const row = [];
-            for (const generator of generators) {
-                const next = generator.next();
-                if (next.done) {
-                    return;
-                }
-
-                row.push(next.value);
+            const row = generators.map(generator => generator.next());
+            const check = longest ? row.every.bind(row) : row.some.bind(row);
+            if (check(next => next.done)) {
+                return;
             }
 
-            yield row;
+            yield row.map(next => next.value);
         }
     });
-}
+};
 
 function items(obj) {
     let {keys, get} = obj;
@@ -159,4 +151,5 @@ function items(obj) {
     });
 }
 
-module.exports = {Generator, range, enumerate, zip, items};
+module.exports = {Generator, range, enumerate, zip: zip(false), zipLongest: zip(true), items};
+
