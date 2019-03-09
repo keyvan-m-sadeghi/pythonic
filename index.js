@@ -45,7 +45,7 @@ class Iterator {
         }
 
         if (empty) {
-            throw new TypeError('Reduce of empty Iteratorrator with no initial value');
+            throw new TypeError('Reduce of empty Iterator with no initial value');
         }
 
         return accumulator;
