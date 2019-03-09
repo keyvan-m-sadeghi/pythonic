@@ -1,5 +1,5 @@
 const test = require('ava');
-const {range, enumerate, zip, zipLongest, items} = require('.');
+const {range, enumerate, zip, zipLongest, items, Iterator} = require('.');
 
 test('range with stop', t => {
     t.deepEqual(range(3).map(x => x + 1), [1, 2, 3]);
@@ -114,8 +114,14 @@ test('reduce', t => {
     t.is(range(5).reduce((accumulator, current) => accumulator + current, 5), 15);
 });
 
-test('async Generator', async t => {
+test('async Iterator', async t => {
     for await (const [index, value] of enumerate([0, 1, 2])) {
         t.is(index, value);
     }
+});
+
+test('some and every', t => {
+    const numbers = Iterator.fromIterable([1, 2, 3]);
+    t.is(numbers.every(value => value > 0), true);
+    t.is(numbers.some(value => value > 3), false);
 });

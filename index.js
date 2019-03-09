@@ -1,6 +1,6 @@
-class Generator {
-    constructor(generatorFunction) {
-        this[Symbol.iterator] = generatorFunction;
+class Iterator {
+    constructor(generator) {
+        this[Symbol.iterator] = generator;
     }
 
     async * [Symbol.asyncIterator]() {
@@ -45,7 +45,7 @@ class Generator {
         }
 
         if (empty) {
-            throw new TypeError('Reduce of empty Generator with no initial value');
+            throw new TypeError('Reduce of empty Iteratorrator with no initial value');
         }
 
         return accumulator;
@@ -62,16 +62,17 @@ class Generator {
     }
 
     every(callback) {
-        let result = true;
         for (const element of this) {
-            result = result && callback(element);
+            if (!callback(element)) {
+                return false;
+            }
         }
 
-        return result;
+        return true;
     }
 
     static fromIterable(iterable) {
-        return new Generator(function * () {
+        return new Iterator(function * () {
             for (const element of iterable) {
                 yield element;
             }
@@ -96,7 +97,7 @@ class Generator {
 }
 
 function rangeSimple(stop) {
-    return new Generator(function * () {
+    return new Iterator(function * () {
         for (let i = 0; i < stop; i++) {
             yield i;
         }
@@ -104,7 +105,7 @@ function rangeSimple(stop) {
 }
 
 function rangeOverload(start, stop, step = 1) {
-    return new Generator(function * () {
+    return new Iterator(function * () {
         for (let i = start; i < stop; i += step) {
             yield i;
         }
@@ -120,7 +121,7 @@ function range(...args) {
 }
 
 function enumerate(iterable) {
-    return new Generator(function * () {
+    return new Iterator(function * () {
         let index = 0;
         for (const element of iterable) {
             yield [index, element];
@@ -134,10 +135,10 @@ const zip = longest => (...iterables) => {
         throw new TypeError(`zip takes 2 iterables at least, ${iterables.length} given`);
     }
 
-    return new Generator(function * () {
-        const generators = iterables.map(iterable => Generator.fromIterable(iterable));
+    return new Iterator(function * () {
+        const iterators = iterables.map(iterable => Iterator.fromIterable(iterable));
         while (true) {
-            const row = generators.map(generator => generator.next());
+            const row = iterators.map(generator => generator.next());
             const check = longest ? row.every.bind(row) : row.some.bind(row);
             if (check(next => next.done)) {
                 return;
@@ -163,12 +164,11 @@ function items(obj) {
         };
     }
 
-    return new Generator(function * () {
+    return new Iterator(function * () {
         for (const key of keys()) {
             yield [key, get(key)];
         }
     });
 }
 
-module.exports = {Generator, range, enumerate, zip: zip(false), zipLongest: zip(true), items};
-
+module.exports = {Iterator, range, enumerate, zip: zip(false), zipLongest: zip(true), items};
