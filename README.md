@@ -72,6 +72,9 @@ for (const [first, second] of zipLongest(arr1, arr2))
 // first: a, second: c
 // first: b, second: d
 // first: undefined, second: e
+
+// unzip
+const [arrayFirst, arraySecond] = [...zip(...zip(arr1, arr2))];
 ```
 
 #### items
