@@ -138,7 +138,7 @@ const zip = longest => (...iterables) => {
     return new Iterator(function * () {
         const iterators = iterables.map(iterable => Iterator.fromIterable(iterable));
         while (true) {
-            const row = iterators.map(generator => generator.next());
+            const row = iterators.map(iterator => iterator.next());
             const check = longest ? row.every.bind(row) : row.some.bind(row);
             if (check(next => next.done)) {
                 return;

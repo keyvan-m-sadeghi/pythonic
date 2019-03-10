@@ -101,7 +101,7 @@ import {Iterator, range} from 'pythonic';
 
 const randomIntegers = (size, start, stop) => new Iterator(function * () {
     for (const _ of range(size))
-        yield Math.floor(Math.random() * Math.floor(start - stop) + stop);
+        yield Math.floor(Math.random() * (stop - start) + start);
 });
 
 const randomNumbers = randomIntegers(3, 10, 1000);
