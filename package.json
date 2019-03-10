@@ -1,6 +1,6 @@
 {
   "name": "pythonic",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Python like utility functions for JS: `range`, `enumerate`, `zip` and `items`.",
   "main": "index.js",
   "scripts": {
